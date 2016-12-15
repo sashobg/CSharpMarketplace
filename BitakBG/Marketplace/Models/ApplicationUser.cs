@@ -14,10 +14,6 @@ namespace Marketplace.Models
     {
         [Required]
         public string FullName { get; set; }
-       
-
-        public DateTime DateCreated { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -25,6 +21,5 @@ namespace Marketplace.Models
             // Add custom user claims here
             return userIdentity;
         }
-
     }
 }

@@ -47,8 +47,6 @@ namespace Marketplace.Controllers
 
         }
 
-
-
         // GET: Ad/Details/5
         public ActionResult Details(int? id)
         {
@@ -110,8 +108,7 @@ namespace Marketplace.Controllers
                         .First()
                         .Id;
 
-                    DateTime DateCreated = DateTime.Now;
-                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, DateCreated);
+                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);
@@ -158,8 +155,7 @@ namespace Marketplace.Controllers
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
-                
-                model.Approved = ad.Approved;
+
                 // Pass the view model to view
                 return View(model);
             }
@@ -189,12 +185,6 @@ namespace Marketplace.Controllers
                     ad.Price = model.Price;
                     ad.CategoryId = model.CategoryId;
                     ad.TownId = model.TownId;
-
-                    bool isAdmin = this.User.IsInRole("Admin");
-                    if (isAdmin)
-                    {
-                        ad.Approved = model.Approved;
-                    }
 
                     // Save Ad state in database
                     database.Entry(ad).State = EntityState.Modified;

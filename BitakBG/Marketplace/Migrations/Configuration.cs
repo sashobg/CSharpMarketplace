@@ -67,7 +67,6 @@ namespace Marketplace.Migrations
             {
                 UserName = email,
                 FullName = fullName,
-                DateCreated = DateTime.Now,
                 Email = email,
             };
 

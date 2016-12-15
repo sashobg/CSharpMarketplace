@@ -1,11 +1,11 @@
 ﻿@using Marketplace.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Логни се";
 }
 <div class="container">
     <div class="well">
-        <h2>@ViewBag.Title.</h2>
+        <h2>@ViewBag.Title</h2>
         <div class="row">
             <div class="col-sm-10">
                 <section id="loginForm">
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <p>
-                            @Html.ActionLink("Register as a new user", "Register")
+                            @Html.ActionLink("Регистрирай се", "Register")
                         </p>
                         @* Enable this once you have account confirmation enabled for password reset functionality
                         <p>

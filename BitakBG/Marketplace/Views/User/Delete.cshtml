@@ -1,7 +1,7 @@
 ﻿@model Marketplace.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "Delete User";
+    ViewBag.Title = "Администрация";
 }
 
 <div class="container body-content span-8 offset-2">
@@ -26,11 +26,10 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
-                    @Html.ActionLink("Cancel", "List", "User", null, new { @class = "btn btn-default" })
-                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Отказ", "List", "User", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Изтрий" class="btn btn-danger" />
                 </div>
             </div>
         }
-
     </div>
 </div>

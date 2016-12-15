@@ -24,8 +24,7 @@
                 <p class="text-right text-danger"><strong>@ad.Price лв.</strong></p>
 
                 <ul class="list-inline list-unstyled">
-                    <li><span><i class="glyphicon glyphicon-time"></i> @Html.ValueFor(Model => ad.DateCreated, "{0:dd/MM/yyyy hh:mm }")
-</span></li>
+                    <li><span><i class="glyphicon glyphicon-time"></i> 26 ноем</span></li>
                     <li>|</li>
                     <li>
                     <span><i class="glyphicon glyphicon-comment"></i> 2 коментара</span>
@@ -41,25 +40,6 @@
                         <i class="glyphicon glyphicon-globe"></i>
                         @Html.ActionLink(@ad.Town.Name, "ListAdsByTown", "Home", new { @idtownId = ad.TownId }, null)
                     </li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>|</li>
-                        <li>
-                            @switch (ad.Approved)
-                            {
-                                case -1: <p class="text-danger"><strong>Неодобрена</strong></p>
-                                    break;
-                                case 0: <p class="text-warning"><strong>Чакаща</strong></p>
-                                    break;
-                                case 1: <p class="text-success"><strong>Oдобрена</strong></p>
-                                    break;                                                                  
-                            }                           
-                        </li>
-                        
-                        <div class="pull-right">
-                           @Html.ActionLink("Edit", "Edit", "Ad", new { @id = ad.Id }, new { @class = "btn btn-fill " })
-                        </div>
-                    }
                 </ul>
             </div>
         </div>

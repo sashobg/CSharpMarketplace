@@ -10,8 +10,6 @@ namespace Marketplace.Models
     {
         public int Id { get; set; }
 
-        public int Approved { get; set; }
-
         [Required]
         [StringLength(50)]
         public string Title { get; set; }
@@ -27,8 +25,6 @@ namespace Marketplace.Models
 
         public int TownId { get; set; }        
         public List<Town> Towns { get; internal set; }
-
-
 
 
     }
