@@ -53,6 +53,29 @@
                 </div>
             </div>
 
+            if(User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="Approved">Одобрение</label>
+                    <div class="dropdown col-sm-4">
+                        <select class="btn btn-info col-sm-12" data-val="true" data-val-number="The field Approved must be a number." data-val-required="The TownId field is required." id="Approved" name="Approved">
+                            <option @if (Model.Approved == -1) {@: selected="selected" 
+                                     } value="-1">Неодобрена</option>
+
+                            <option @if (Model.Approved == 0) {@: selected="selected"
+                                    } value="0">Чакаща</option>
+                                 
+                           <option @if (Model.Approved == 1) {@: selected="selected"
+                                    }  value="1">Одобрена</option>
+
+                   </select>
+               </div>
+             </div>
+            }
+
+
+
+
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">

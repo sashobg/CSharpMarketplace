@@ -15,7 +15,7 @@ namespace Marketplace.Models
 
             }
 
-            public Ad(int approved, string authorId, string title, string content,decimal price, int categoryId, int townId)
+            public Ad(int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, DateTime DateCreated)
             {
                 this.Approved = approved;
                 this.AuthorId = authorId;
@@ -24,6 +24,7 @@ namespace Marketplace.Models
                 this.Price = price;
                 this.CategoryId = categoryId;
                 this.TownId = townId;
+                this.DateCreated = DateTime.Now;
         }
 
             [Key]
@@ -57,6 +58,12 @@ namespace Marketplace.Models
              [ForeignKey("Town")]
              public int TownId { get; set; }
              public virtual Town Town { get; set; }
+
+
+            
+            public DateTime DateCreated { get; set; }
+
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Marketplace.Models
@@ -73,6 +74,7 @@ namespace Marketplace.Models
         [StringLength(50)]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
+        
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
@@ -84,6 +86,10 @@ namespace Marketplace.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        
+
+
     }
 
     public class ResetPasswordViewModel

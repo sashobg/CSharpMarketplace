@@ -198,7 +198,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdController.cs" />
     <Compile Include="Controllers\Admin\ApplicationUserManager.cs" />
-    <Compile Include="Controllers\Admin\ApprovalController.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\TownController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
@@ -303,10 +302,10 @@
     <Content Include="Views\Town\List.cshtml" />
     <Content Include="Views\Ad\List.cshtml" />
     <Content Include="Views\Home\ListAdsByTown.cshtml" />
+    <Content Include="Views\Home\ListByUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Approval\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
