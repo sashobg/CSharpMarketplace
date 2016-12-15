@@ -1,0 +1,33 @@
+﻿@model List<Marketplace.Models.Town>
+@{
+    ViewBag.Title = "List";
+}
+<div class="container">
+    <div class="well">
+        <h2>All Towns - @Html.ActionLink("Create", "Create", "Town", null, new { @class = "btn btn-warning" })</h2>
+        <div class="row">
+            <table class="table table-striped table-hover col-sm-12">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var town in Model)
+                    {
+                        <tr>
+                            <td>@town.Id</td>
+                            <td>@town.Name</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Town", new { @id = town.Id }, null)
+                                @Html.ActionLink("Delete", "Delete", "Town", new { @id = town.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model List<Marketplace.Models.Ad>
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="bitak-title">
+
+    <h2 class="text-center">
+        Всички обяви от <i>@Model[0].Town.Name</i>
+    </h2>
+</div>
+<br>
+<div class="col-sm-offset-1 col-sm-10">
+    @foreach (var ad in Model)
+    {
+        <div class="well">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="https://placekitten.com/110/110">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">@Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)</h4>
+
+                    <p class="text-right text-danger"><strong>@ad.Price лв.</strong></p>
+
+                    <ul class="list-inline list-unstyled">
+                        <li><span><i class="glyphicon glyphicon-time"></i> 26 ноем</span></li>
+                        <li>|</li>
+                        <li>
+                            <span><i class="glyphicon glyphicon-comment"></i> 2 коментара</span>
+                        </li>
+                        <li>|</li>
+                        <li>
+
+                            <i class="glyphicon glyphicon-list"></i>
+                            @Html.ActionLink(@ad.Category.Name, "ListAds", "Home", new { @categoryId = ad.CategoryId }, null)
+                        </li>
+                        <li>|</li>
+                        <li>
+                            <i class="glyphicon glyphicon-globe"></i>
+                            @Html.ActionLink(@ad.Town.Name, "ListAdsByTown", "Home", new { @townId = ad.TownId }, null)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>

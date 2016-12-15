@@ -1,0 +1,124 @@
+﻿@model Marketplace.Models.Ad
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+
+
+<div class="row">
+    
+
+
+
+    <div class="col-md-9">
+
+        <div class="thumbnail" style="border: 0px;">
+            <img class="img-responsive" src="https://olxbg-ring09.akamaized.net/images_prodavalnikcom/102977452_4_800x600_ttl-svetkavitsa-nissin-di622-mark-ii-za-nikon-elektronika.jpg" alt="">
+            <div class="caption-full">
+                <h3 class="pull-right text-danger ">@Model.Price лв.</h3>
+                <h3>
+                    
+                        @Model.Title
+                    
+                </h3>
+                <div style="padding-top: 40px">
+                    <p>
+                        @Model.Content
+                    </p>
+                </div>
+            </div>
+            <div class="pull-left">
+                @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
+            {
+                    @Html.ActionLink("Edit", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
+                    @Html.ActionLink("Delete", "Delete", "Ad", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
+                }
+                @Html.ActionLink("Back", "Index", "Ad", null, new { @class = "btn btn-default btn-xs" })
+            </div>
+            
+            <div class="space"></div>
+            <div class="price ">
+                <p class="pull-right">3 коментара</p>
+                <p>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    4.0
+                </p>
+            </div>
+        </div>
+        
+        <div class="well">
+
+            <div class="text-right">
+                <a class="btn btn-success">Напиши коментар</a>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    Без име
+                    <span class="pull-right">преди 10 дни</span>
+                    <p>Баси якото!</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    Без име
+                    <span class="pull-right">преди 15 дни</span>
+                    <p>Препоръчвам!</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    Иван
+                    <span class="pull-right">преди 16 дни</span>
+                    <p>Доволен съм. Препоръчвам.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+        <center>
+            <img src="https://scontent-fra3-1.xx.fbcdn.net/v/t1.0-1/c378.19.424.424/s160x160/12235107_965906956803739_6246740614378719323_n.jpg?oh=d9b661c9dafbc0a210883a144a464a54&oe=58EEFBEF" alt="Circle Image" class="img-circle">
+            <br>
+            <h4>@Model.Author.FullName</h4>
+            <p class="small">
+                В БитакБГ от <br><i>12 декември 2016г.</i>
+                <div style="width: 70%; padding-top: 2  0px">
+                    <button href="#fakelink" class="btn btn-block btn-sm btn-info btn-round">Обяви на потребителя</button>
+                </div>
+        </center>
+    </div>
+    </div>
