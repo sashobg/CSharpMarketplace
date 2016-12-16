@@ -20,37 +20,99 @@ namespace Marketplace.Controllers
         }
 
         // GET: Ad/List
-        public ActionResult List(int? page)
+        public ActionResult List(string sortBy , int? categoryId, int? townId, string userId, string currentFilter , string search, int? page)
         {
             using (var database = new MarketplaceDbContext())
             {
-                bool isAdmin = this.User.IsInRole("Admin");
-                if (isAdmin)
+
+                ViewBag.CurrentSort = sortBy;
+
+                
+
+                if (search != null)
                 {
-                    var ads = database.Ads
-                        .OrderByDescending(a => a.DateCreated)
-                        .Include(a => a.Author)
-                        .Include(a => a.Town)
-                        .Include(a => a.Category)                        
-                        .ToList();
-                    int pageSize = 3;
-                    int pageNumber = (page ?? 1);
-                    return View(ads.ToPagedList(pageNumber, pageSize));
+                    page = 1;
                 }
                 else
                 {
-                    var ads = database.Ads
-                        .Where(a => a.Approved == 1)
-                        .OrderByDescending(a => a.DateCreated)
+                    search = currentFilter;
+                }
+
+                ViewBag.CurrentFilter = search;
+
+                bool isAdmin = this.User.IsInRole("Admin");
+                var ads = database.Ads
+                       .OrderByDescending(a => a.DateCreated)
                        .Include(a => a.Author)
                        .Include(a => a.Town)
                        .Include(a => a.Category)
                        .ToList();
-                    int pageSize = 5;
-                    int pageNumber = (page ?? 1);
-                    return View(ads.ToPagedList(pageNumber, pageSize));
+
+                if (!isAdmin)
+                {
+                    ads = ads.Where(a => a.Approved == 1)
+                       .ToList();                    
                 }
+
+                if (!String.IsNullOrEmpty(search))
+                {
+                    ads = ads.Where(s => s.Title.Contains(search) || s.Content.Contains(search))
+                       .ToList();
+                }
+
+                if (categoryId != null)
+                {
+                    ViewBag.categoryId = categoryId;
+                   ads = ads.Where(a => a.Category.Id == categoryId).ToList();
+                }
+
+                if (townId != null)
+                {
+                    ViewBag.townId = townId;
+                    var town = database.Towns
+                       .Where(a => a.Id == townId)
+                       .First();
+                    ViewBag.townName = town.Name;
+                    ads = ads.Where(a => a.Town.Id == townId).ToList();
+                }
+
+                if (userId != null)
+                {
+                    ViewBag.userId = userId;
+                    var user = database.Users
+                        .Where(a => a.Id == userId)                       
+                        .First();
+                    ViewBag.userName = user.FullName;
+                    ads = ads.Where(a => a.Author.Id == userId).ToList();
+                }
+
+                switch (sortBy)
+                {
+                    case "price":
+                        ads = ads.OrderBy(s => s.Price).ToList();
+                        break;
+                    case "priceDesc":
+                        ads = ads.OrderByDescending(s => s.Price).ToList();
+                        break;
+                    default:
+                        ads = ads.OrderByDescending(a => a.DateCreated).ToList();
+                        break;
+                }
+
+                ViewBag.categories = database.Categories
+                   .Include(c => c.Ads)                   
+                   .OrderBy(c => c.Name)
+                   .ToList();
                
+
+                ViewBag.towns = database.Towns
+                   .Include(c => c.Ads)
+                   .OrderBy(c => c.Name)
+                   .ToList();
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(ads.ToPagedList(pageNumber, pageSize));
+
             }
 
         }
@@ -78,6 +140,12 @@ namespace Marketplace.Controllers
                 if (ad == null)
                 {
                     return HttpNotFound();
+                }
+
+                if (ad.Approved == 1)
+                {
+                    ad.ViewCount = ad.ViewCount + 1;
+                    database.SaveChanges();
                 }
 
                 return View(ad);
@@ -119,7 +187,8 @@ namespace Marketplace.Controllers
                         .Id;
 
                     DateTime DateCreated = DateTime.Now;
-                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, DateCreated);
+                    int viewCount = 0;
+                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, viewCount, DateCreated);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);

@@ -18,7 +18,12 @@
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 
-
+    <script type="text/javascript">
+        function submitform()
+        {
+            document.forms["search"].submit();
+        }
+    </script>
 
 </head>
 <body>
@@ -46,12 +51,15 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li class="active">@Html.ActionLink("Всички обяви", "Index", "Ad", new { area = "" }, null)</li>
-                            <li class="active"> <a href="javascript:void(0);" data-toggle="search" class="hidden-xs"><i class="fa fa-search"></i></a></li>
+                            <li class="active"> <a href="javascript: submitform()" data-toggle="search" class="hidden-xs"><i class="fa fa-search"></i></a></li>
                         </ul>
-                        <form class="navbar-form navbar-left navbar-search">
-                            <input type="text" value="" placeholder="Търси в БитакБГ" class="form-control">
-                        </form>
 
+                        @using (Html.BeginForm("List", "Ad", FormMethod.Get, new { @class = "navbar-form navbar-left navbar-search", name="search" }))
+                        {
+                            @Html.TextBox("search", ViewBag.CurrentFilter as string , new { @placeholder = "Търси в БитакБГ", @class="form-control" })
+                            
+                        }
+                             
                         <ul class="nav navbar-nav navbar-right">
                             @Html.Partial("_LoginPartial")
                         </ul>

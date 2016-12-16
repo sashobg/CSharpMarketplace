@@ -8,71 +8,208 @@
 
 <div class="bitak-title">
     
-    <h2 class="text-center">
-        Всички обяви
-    </h2>
+    
+    @if (ViewBag.userId == null)
+    {
+        <h2 class="text-center">
+            Всички обяви
+        </h2>
+    }
+    else
+    {
+        <h2 class="text-center">
+            Всички обяви от потребител @ViewBag.userName
+        </h2>
+    }
 </div>
 <br>
-<div class="col-sm-offset-1 col-sm-10">
-@foreach (var ad in Model)
-{
-    <div class="well">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object" src="https://placekitten.com/110/110">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">@Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)</h4>
+<div class="row">
+    <div class="col-sm-offset-1 col-sm-10">
+        <label>Категория: </label>
+        <ul class="list-inline list-unstyled">
+            
+            @if (ViewBag.categoryId == null)
+            {
+                <li>
+              @Html.ActionLink(string.Format("Всички"),"List", "Ad", new {
+              currentFilter = ViewBag.CurrentFilter,
+              townId = ViewBag.townId,
+              userId = ViewBag.userId },
+          new { @class = "list-group-item active" })
+                </li>
+            }
+            else
+            {
+                <li>
+              @Html.ActionLink(string.Format("Всички"),
+          "List", "Ad", new {
+              currentFilter = ViewBag.CurrentFilter,
+              townId = ViewBag.townId,
+              userId = ViewBag.userId},
+          new { @class = "list-group-item" })
+                </li>
+            }
 
-                <p class="text-right text-danger"><strong>@ad.Price лв.</strong></p>
+            @foreach (var category in ViewBag.categories)
+            {
+                if (ViewBag.categoryId == category.Id)
+                {
+                    <li>
+                        @Html.ActionLink(string.Format($"{category.Name}"),"List", "Ad", new {
+                       @categoryId = category.Id,
+                       currentFilter = ViewBag.CurrentFilter,
+                       townId = ViewBag.townId,
+                       userId = ViewBag.userId },
+                         new { @class = "list-group-item active" })
+                    </li>
+                }
+                else
+                {
+               <li> 
+                   @Html.ActionLink(string.Format($"{category.Name}"),"List", "Ad", new {
+                   @categoryId = category.Id,
+                   currentFilter = ViewBag.CurrentFilter,
+                   townId = ViewBag.townId, userId = ViewBag.userId },
+                   new { @class = "list-group-item" }) 
+               </li>
+                }
+            }
+        </ul>
+        <div class="space"></div>
+       
+        <div class="dropdown">
+           <label>Град: </label>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+           @if (ViewBag.townId == null)
+           {
+		        @:Всички
+	        }
+           else
+           {
+               @ViewBag.townName
+           }
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">            
+            @if (ViewBag.townId == null)
+            {
+                <li>
+                    @Html.ActionLink(string.Format("Всички"),"List", "Ad", new {
+                   categoryId = ViewBag.categoryId,
+                   currentFilter = ViewBag.CurrentFilter,
+                   userId = ViewBag.userId },
+                   new { @class = "list-group-item active" })
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink(string.Format("Всички"), "List", "Ad", new {
+                   categoryId = ViewBag.categoryId,
+                   currentFilter = ViewBag.CurrentFilter,
+                   userId = ViewBag.userId },
+                   new { @class = "list-group-item" })
+                </li>
+            }
 
-                <ul class="list-inline list-unstyled">
-                    <li><span><i class="glyphicon glyphicon-time"></i> @Html.ValueFor(Model => ad.DateCreated, "{0:dd/MM/yyyy hh:mm }")
-</span></li>
-                    <li>|</li>
+            @foreach (var town in ViewBag.towns)
+            {
+                if (ViewBag.townId == town.Id)
+                {
                     <li>
-                    <span><i class="glyphicon glyphicon-comment"></i> 2 коментара</span>
+                        @Html.ActionLink(string.Format($"{town.Name}"),"List", "Ad", new {
+                       @townId = town.Id,
+                       currentFilter = ViewBag.CurrentFilter,
+                       categoryId = ViewBag.categoryId,
+                       userId = ViewBag.userId }, new {
+                       @class = "list-group-item active" })
                     </li>
-                    <li>|</li>
-                    <li>
-
-                        <i class="glyphicon glyphicon-list"></i>
-                        @Html.ActionLink(@ad.Category.Name, "ListAds", "Home", new { @categoryId = ad.CategoryId }, null)
-                    </li>
-                    <li>|</li>
-                    <li>
-                        <i class="glyphicon glyphicon-globe"></i>
-                        @Html.ActionLink(@ad.Town.Name, "ListAdsByTown", "Home", new { @idtownId = ad.TownId }, null)
-                    </li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>|</li>
-                        <li>
-                            @switch (ad.Approved)
-                            {
-                                case -1: <p class="text-danger"><strong>Неодобрена</strong></p>
-                                    break;
-                                case 0: <p class="text-warning"><strong>Чакаща</strong></p>
-                                    break;
-                                case 1: <p class="text-success"><strong>Oдобрена</strong></p>
-                                    break;                                                                  
-                            }                           
-                        </li>
-                        
-                        <div class="pull-right">
-                           @Html.ActionLink("Edit", "Edit", "Ad", new { @id = ad.Id }, new { @class = "btn btn-fill " })
-                        </div>
-                    }
-                </ul>
+                }
+                else
+                {
+               <li> @Html.ActionLink(string.Format($"{town.Name}"),"List", "Ad", new {
+                   @townId = town.Id,
+                   currentFilter = ViewBag.CurrentFilter,
+                   categoryId = ViewBag.categoryId,
+                   userId = ViewBag.userId },
+                   new { @class = "list-group-item" }) </li>
+                }
+            }
+        </ul>
             </div>
-        </div>
-    </div>
-}
-</div>
-<div class="space"></div>
-<div class="text-center">
+        <div class="space"></div>
+        <div class="pull-right">
+            <ul class="list-inline list-unstyled">
+                <li>Подреди по:</li>
+                <li>@Html.ActionLink("Най-нови", "List", "Ad", new { sortBy = "date", currentFilter = ViewBag.CurrentFilter, categoryId = ViewBag.categoryId, townId = ViewBag.townId, userId= ViewBag.userId }, null)</li>
+                <li>@Html.ActionLink("Най-евтини", "List", "Ad", new { sortBy = "price", currentFilter = ViewBag.CurrentFilter, categoryId = ViewBag.categoryId, townId = ViewBag.townId, userId = ViewBag.userId }, null)</li>
+                <li>@Html.ActionLink("Най-скъпи", "List", "Ad", new { sortBy = "priceDesc", currentFilter = ViewBag.CurrentFilter, categoryId = ViewBag.categoryId, townId = ViewBag.townId, userId = ViewBag.userId }, null)</li>
+            </ul>
+            </div>
+        <div class="space-30"></div>
+            @foreach (var ad in Model)
+            {
+                <div class="well">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" src="https://placekitten.com/110/110">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">@Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)</h4>
 
-@Html.PagedListPager(Model, page => Url.Action("List",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                            <p class="text-right text-danger"><strong>@ad.Price лв.</strong></p>
+
+                            <ul class="list-inline list-unstyled">
+                                <li>
+                                    <span>
+                                        <i class="glyphicon glyphicon-time"></i> @Html.ValueFor(Model => ad.DateCreated, "{0:dd/MM/yyyy hh:mm }")
+                                    </span>
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <span><i class="glyphicon glyphicon-comment"></i> 2 коментара</span>
+                                </li>
+                                <li>|</li>
+                                <li>
+
+                                    <i class="glyphicon glyphicon-list"></i>
+                                    @Html.ActionLink(@ad.Category.Name, "List", "Ad", new { @categoryId = ad.CategoryId }, null)
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <i class="glyphicon glyphicon-globe"></i>
+                                    @Html.ActionLink(@ad.Town.Name, "List", "Ad", new { @townId = ad.TownId }, null)
+                                </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>|</li>
+                                        <li>
+                                            @switch (ad.Approved)
+                                            {
+                                                case -1: <p class="text-danger"><strong>Неодобрена</strong></p>
+                                                    break;
+                                                case 0: <p class="text-warning"><strong>Чакаща</strong></p>
+                                                    break;
+                                                case 1: <p class="text-success"><strong>Oдобрена</strong></p>
+                                                    break;
+                                            }
+                                        </li>
+
+                                        <div class="pull-right">
+                                            @Html.ActionLink("Edit", "Edit", "Ad", new { @id = ad.Id }, new { @class = "btn btn-fill " })
+                                        </div>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </>
+
+    </div>
 </div>
+<div class="text-center">
+  Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) от @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("List",
+    new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, categoryId = ViewBag.categoryId, townId = ViewBag.townId, userId = ViewBag.userId }))
+ </div>

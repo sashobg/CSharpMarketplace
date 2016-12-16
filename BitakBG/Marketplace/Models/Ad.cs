@@ -15,7 +15,7 @@ namespace Marketplace.Models
 
             }
 
-            public Ad(int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, DateTime DateCreated)
+            public Ad(int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, int viewCount, DateTime dateCreated)
             {
                 this.Approved = approved;
                 this.AuthorId = authorId;
@@ -24,7 +24,8 @@ namespace Marketplace.Models
                 this.Price = price;
                 this.CategoryId = categoryId;
                 this.TownId = townId;
-                this.DateCreated = DateTime.Now;
+                this.ViewCount = viewCount;
+                this.DateCreated = dateCreated;
         }
 
             [Key]
@@ -59,8 +60,8 @@ namespace Marketplace.Models
              public int TownId { get; set; }
              public virtual Town Town { get; set; }
 
+            public int ViewCount { get; set; }
 
-            
             public DateTime DateCreated { get; set; }
 
 

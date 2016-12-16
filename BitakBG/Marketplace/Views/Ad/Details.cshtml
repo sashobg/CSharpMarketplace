@@ -29,11 +29,15 @@
                         @Model.Content
                     </p>
                 </div>
-                <div class="pull-left">
-                 <p><i>Публикувано на @Html.ValueFor(Model => Model.DateCreated, "{0:dd MMMM yyyy г. hh:mm ч.}")</i><p>
+                <hr>
+                <div>
+                 <p class="pull-left"><i>Публикувано на @Html.ValueFor(Model => Model.DateCreated, "{0:dd MMMM yyyy г. hh:mm ч.}")</i><p>
+                <p class="pull-right">Преглеждания: <i>@Model.ViewCount</i><p>
                 </div>
             </div>
-            <div class="pull-right">
+           
+            <div class="space"></div>
+            <div class="text-center">
                 @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
             {
                     @Html.ActionLink("Edit", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
@@ -120,7 +124,7 @@
             <p class="small">
                 В БитакБГ от <br><i>@Html.ValueFor(Model => Model.Author.DateCreated, "{0:dd MMMM yyyy г.}")</i>
                 <div style="width: 70%; padding-top: 2  0px">
-                    @Html.ActionLink("Обяви на потребителя" , "ListByUser", "Home", new { @userId = Model.Author.Id }, new { @class="btn btn-block btn-sm btn-info btn-round" } )
+                    @Html.ActionLink("Обяви на потребителя" , "List", "Ad", new { @userId = Model.Author.Id }, new { @class="btn btn-block btn-sm btn-info btn-round" } )
                     
                 </div>
         </center>
