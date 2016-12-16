@@ -1,13 +1,13 @@
 ﻿@model Marketplace.Models.Category
 
 @{
-    ViewBag.Title = "Администрация";
+    ViewBag.Title = "Edit";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Редактирай категория</h2>
-        @using (Html.BeginForm("Cancel", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
+        <h2>Edit Category</h2>
+        @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-4" })
@@ -18,7 +18,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Edit", "List", "Category", new { @class = "btn btn-default" })
+                    @Html.ActionLink("Cancel", "List", "Category", new { @class = "btn btn-default" })
                     <input type="submit" value="Edit" class="btn btn-success" />
                 </div>
             </div>

@@ -1,19 +1,19 @@
 ﻿@model List<Marketplace.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "Администрация";
+    ViewBag.Title = "List";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Юзъри</h2>
+        <h2>Users</h2>
 
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Идентификационен номер</th>
-                    <th>Имейл</th>
-                    <th>Настройки</th>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -32,8 +32,8 @@
                     <td>@user.Id</td>
                     <td>@user.Email</td>
                     <td>
-                        @Html.ActionLink("Редактирай", "Edit", "User", new { @id = user.Id }, null)
-                        @Html.ActionLink("Изтрий", "Delete", "User", new { @id = user.Id }, null)
+                        @Html.ActionLink("Edit", "Edit", "User", new { @id = user.Id }, null)
+                        @Html.ActionLink("Delete", "Delete", "User", new { @id = user.Id }, null)
                     </td>
                 }
 </tbody>

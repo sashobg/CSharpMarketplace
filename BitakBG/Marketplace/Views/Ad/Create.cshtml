@@ -1,11 +1,11 @@
 ﻿@model Marketplace.Models.AdViewModel
 @{
-    ViewBag.Title = "Добавяне на обява";
+    ViewBag.Title = "Create";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Добавяне на обява</h2>
+        <h2>Create Ad</h2>
         @using (Html.BeginForm("Create", "Ad", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()

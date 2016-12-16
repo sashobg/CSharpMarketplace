@@ -29,8 +29,11 @@
                         @Model.Content
                     </p>
                 </div>
+                <div class="pull-left">
+                 <p><i>Публикувано на @Html.ValueFor(Model => Model.DateCreated, "{0:dd MMMM yyyy г. hh:mm ч.}")</i><p>
+                </div>
             </div>
-            <div class="pull-left">
+            <div class="pull-right">
                 @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
             {
                     @Html.ActionLink("Edit", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
@@ -115,9 +118,10 @@
             <br>
             <h4>@Model.Author.FullName</h4>
             <p class="small">
-                В БитакБГ от <br><i>12 декември 2016г.</i>
+                В БитакБГ от <br><i>@Html.ValueFor(Model => Model.Author.DateCreated, "{0:dd MMMM yyyy г.}")</i>
                 <div style="width: 70%; padding-top: 2  0px">
-                    <button href="#fakelink" class="btn btn-block btn-sm btn-info btn-round">Обяви на потребителя</button>
+                    @Html.ActionLink("Обяви на потребителя" , "ListByUser", "Home", new { @userId = Model.Author.Id }, new { @class="btn btn-block btn-sm btn-info btn-round" } )
+                    
                 </div>
         </center>
     </div>

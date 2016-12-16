@@ -12,26 +12,26 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                    <li>@Html.ActionLink("Юзъри", "List", "User")</li>
-                    <li>@Html.ActionLink("Категории", "List", "Category")</li>
-                    <li>@Html.ActionLink("Градове", "List", "Town")</li>
+                    <li>@Html.ActionLink("Users", "List", "User")</li>
+                    <li>@Html.ActionLink("Categories", "List", "Category")</li>
+                    <li>@Html.ActionLink("Towns", "List", "Town")</li>
                 </ul>
             </li>
         }
         <li>
-            @Html.ActionLink("Добави обява", "Create", "Ad")
+            @Html.ActionLink("Create", "Create", "Ad")
         </li>
         <li>
-            @Html.ActionLink("Профил(" + User.Identity.GetUserName() + ")", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Изход</a></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Регистрирай се", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Влез", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

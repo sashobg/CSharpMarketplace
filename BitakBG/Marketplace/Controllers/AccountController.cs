@@ -151,9 +151,10 @@ namespace Marketplace.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, Email = model.Email };
+                DateTime dateCreated = DateTime.Now;
+                var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, DateCreated=dateCreated, Email = model.Email};
                 var result = await UserManager.CreateAsync(user, model.Password);
-
+               
                 var addRoleResult = UserManager.AddToRole(user.Id, "User");
                 if (result.Succeeded)
                 {

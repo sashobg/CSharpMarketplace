@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+
 
 namespace Marketplace.Controllers
 {
@@ -18,7 +20,7 @@ namespace Marketplace.Controllers
         }
 
         // GET: Ad/List
-        public ActionResult List()
+        public ActionResult List(int? page)
         {
             using (var database = new MarketplaceDbContext())
             {
@@ -26,26 +28,34 @@ namespace Marketplace.Controllers
                 if (isAdmin)
                 {
                     var ads = database.Ads
+                        .OrderByDescending(a => a.DateCreated)
                         .Include(a => a.Author)
                         .Include(a => a.Town)
-                        .Include(a => a.Category)
+                        .Include(a => a.Category)                        
                         .ToList();
-                    return View(ads);
+                    int pageSize = 3;
+                    int pageNumber = (page ?? 1);
+                    return View(ads.ToPagedList(pageNumber, pageSize));
                 }
                 else
                 {
                     var ads = database.Ads
                         .Where(a => a.Approved == 1)
+                        .OrderByDescending(a => a.DateCreated)
                        .Include(a => a.Author)
                        .Include(a => a.Town)
                        .Include(a => a.Category)
                        .ToList();
-                    return View(ads);
+                    int pageSize = 5;
+                    int pageNumber = (page ?? 1);
+                    return View(ads.ToPagedList(pageNumber, pageSize));
                 }
                
             }
 
         }
+
+
 
         // GET: Ad/Details/5
         public ActionResult Details(int? id)
@@ -108,7 +118,8 @@ namespace Marketplace.Controllers
                         .First()
                         .Id;
 
-                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId);
+                    DateTime DateCreated = DateTime.Now;
+                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, DateCreated);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);
@@ -155,7 +166,8 @@ namespace Marketplace.Controllers
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
-
+                
+                model.Approved = ad.Approved;
                 // Pass the view model to view
                 return View(model);
             }
@@ -185,6 +197,12 @@ namespace Marketplace.Controllers
                     ad.Price = model.Price;
                     ad.CategoryId = model.CategoryId;
                     ad.TownId = model.TownId;
+
+                    bool isAdmin = this.User.IsInRole("Admin");
+                    if (isAdmin)
+                    {
+                        ad.Approved = model.Approved;
+                    }
 
                     // Save Ad state in database
                     database.Entry(ad).State = EntityState.Modified;

@@ -1,11 +1,11 @@
 ﻿@model Marketplace.Models.Town
 @{
-    ViewBag.Title = "Администрация";
+    ViewBag.Title = "Delete";
 }
 <div class="container">
     <div class="well">
-        <h2>Изтрий град</h2>
-        @using (Html.BeginForm("Изтрий", "Town", FormMethod.Post, new { @class = "form-horizontal" }))
+        <h2>Delete Category</h2>
+        @using (Html.BeginForm("Delete", "Town", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-4" })
@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Отказ", "List", "Town", new { @class = "btn btn-default" })
+                    @Html.ActionLink("Cancel", "List", "Town", new { @class = "btn btn-default" })
                     <input type="submit" value="Delete" class="btn btn-danger" />
                 </div>
             </div>

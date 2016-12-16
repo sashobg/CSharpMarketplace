@@ -1,7 +1,7 @@
 ﻿
 @model Marketplace.Models.AdCategoryModel
 @{
-    ViewBag.Title = "БитакБГ";
+    ViewBag.Title = "Home Page";
 }
 
 <div class="row">
@@ -19,10 +19,17 @@
     </div>
 
     <div class="col-md-9">
+
+
+
         <div class="row">
+
             <div class="tim-title">
                 <center><h3>Последни обяви</h3></center>
             </div>
+
+            
+            
             @foreach (var ad in Model.ads)
             {
                 <div class="col-sm-4 col-lg-4 col-md-4">
@@ -34,6 +41,7 @@
                             </h4>
                         </div>
                         <div class="price">
+
                             <p class="pull-right"><strong>@ad.Price</strong></p>
                             <p class="text-warning">@ad.Town.Name</p>
                         </div>

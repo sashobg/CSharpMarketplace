@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+
 
 namespace Marketplace.Controllers
 {
@@ -86,6 +88,30 @@ namespace Marketplace.Controllers
                 return View(ads);
             }
         }
+
+       
+
+        public ActionResult ListByUser(string userId)
+        {
+            if (userId == "")   
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var database = new MarketplaceDbContext())
+            {
+                var ads = database.Ads
+                    .Where(a => a.Approved == 1)
+                    .Where(a => a.Author.Id == userId)                   
+                    .Include(a => a.Town)
+                    .Include(a => a.Category)
+                    .ToList();
+
+                return View(ads);
+            }
+        }
+
+
 
     }
 }
