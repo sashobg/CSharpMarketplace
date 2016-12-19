@@ -15,9 +15,17 @@
 
     <div class="col-md-9">
         @{
-           
-           
-            string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + Model.primaryImageName;
+            string filePath;
+            if (Model.primaryImageName != null)
+            {
+                filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + Model.primaryImageName;
+
+            }
+            else
+            {
+                filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/default.png");
+            }
+
         }
       
         <div class="thumbnail" style="border: 0px;">
@@ -28,7 +36,7 @@
                 <div class="row">  
                     @foreach (var image in Model.Images.Where(a => a.IsItPrimary == false))
                     {
-                       
+
                         string path = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + image.FileName;
                         <a href="@path" data-lightbox="images" class="col-sm-3">
                             <img src="@path" class="img-fluid">
@@ -61,7 +69,7 @@
             <div class="space"></div>
             <div class="text-center">
                 @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
-            {
+                {
                     @Html.ActionLink("Edit", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
                     @Html.ActionLink("Delete", "Delete", "Ad", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
                 }
@@ -137,10 +145,22 @@
 
     </div>
 
+    @{ 
 
+        string filePathProfilePicture;
+        if (Model.Author.ProfilePicture != null)
+        {
+            filePathProfilePicture = VirtualPathUtility.ToAbsolute("~/Content/ProfilePictures/") + Model.Author.ProfilePicture;
+
+        }
+        else
+        {
+            filePathProfilePicture = VirtualPathUtility.ToAbsolute("~/Content/ProfilePictures/avatar.jpg");
+        }
+    }
     <div class="col-md-3">
         <center>
-            <img src="https://scontent-fra3-1.xx.fbcdn.net/v/t1.0-1/c378.19.424.424/s160x160/12235107_965906956803739_6246740614378719323_n.jpg?oh=d9b661c9dafbc0a210883a144a464a54&oe=58EEFBEF" alt="Circle Image" class="img-circle">
+            <img src="@filePathProfilePicture" alt="Circle Image" width="150" height="150" class="img-circle">
             <br>
             <h4>@Model.Author.FullName</h4>
             <p class="small">

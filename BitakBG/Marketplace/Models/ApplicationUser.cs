@@ -14,7 +14,8 @@ namespace Marketplace.Models
     {
         [Required]
         public string FullName { get; set; }
-       
+
+        public string ProfilePicture { get; set; }
 
         public DateTime DateCreated { get; set; }
 

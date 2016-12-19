@@ -312,6 +312,7 @@
     <Content Include="Views\Town\Edit.cshtml" />
     <Content Include="Views\Town\List.cshtml" />
     <Content Include="Views\Ad\List.cshtml" />
+    <Content Include="Views\Manage\AddProfilePicture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

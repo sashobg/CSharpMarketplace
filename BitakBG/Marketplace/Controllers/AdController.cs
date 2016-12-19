@@ -212,25 +212,30 @@ namespace Marketplace.Controllers
                        };
 
                     //upload Primary image
-                    if (primaryImage != null)
-                        
-                            if (primaryImage != null && primaryImage.ContentLength > 0)
-                            {
-                                var id = Guid.NewGuid().ToString();
-                                var fileName = id + Path.GetExtension(primaryImage.FileName);
-                                var path = Path.Combine(Server.MapPath("~/Content/UploadedImages"), fileName);
-                                primaryImage.SaveAs(path);
-
-                                var image = new Image(id, fileName, true, adId);
-                                database.Images.Add(image);
-                                database.SaveChanges();
-
-                            ad.primaryImageName = fileName;
-                            database.Entry(ad).State = EntityState.Modified;
-                            database.SaveChanges();
 
 
-                        }
+                    if (validImageTypes.Contains(primaryImage.ContentType) &&
+                    primaryImage != null && primaryImage.ContentLength > 0)
+                    {
+                        var id = Guid.NewGuid().ToString();
+                        var fileName = id + Path.GetExtension(primaryImage.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Content/UploadedImages"), fileName);
+                        primaryImage.SaveAs(path);
+
+                        var image = new Image(id, fileName, true, adId);
+                        database.Images.Add(image);
+                        database.SaveChanges();
+
+                        ad.primaryImageName = fileName;
+                        database.Entry(ad).State = EntityState.Modified;
+                        database.SaveChanges();
+
+
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
 
                     //upload other images 
 
@@ -256,11 +261,9 @@ namespace Marketplace.Controllers
 
                 }
 
-                return View(model);
-
+                return RedirectToAction("Index");
             }
-            return View(model);
-
+            return RedirectToAction("Index");
         }
 
         // GET: Ad/Edit/5
@@ -298,6 +301,7 @@ namespace Marketplace.Controllers
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
+                
                 
                 model.Approved = ad.Approved;
                 // Pass the view model to view
@@ -401,17 +405,40 @@ namespace Marketplace.Controllers
                     .Where(a => a.Id == id)
                     .Include(a => a.Author)
                     .First();
-
+                
                 // Check if Ad exist
                 if (ad == null)
                 {
                     return HttpNotFound();
                 }
 
+                string fullPathPrimary = Request.MapPath("~/Content/UploadedImages/" + ad.primaryImageName);
+                if (System.IO.File.Exists(fullPathPrimary))
+                {
+                    System.IO.File.Delete(fullPathPrimary);
+                }
+                              
+
+                var images = database.Images
+                    .Where(a => a.AdId == ad.Id)
+                    .ToList();
+
+
+
+                foreach (var image in images)
+                {
+                    string fullPath = Request.MapPath("~/Content/UploadedImages/" + image.FileName);
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                    database.Images.Remove(image);
+                    database.SaveChanges();
+                }
+
                 // Delete Ad from database
                 database.Ads.Remove(ad);
                 database.SaveChanges();
-
                 // Redirect to index page
                 return RedirectToAction("Index");
             }

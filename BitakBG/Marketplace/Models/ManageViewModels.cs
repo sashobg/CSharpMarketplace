@@ -66,6 +66,13 @@ namespace Marketplace.Models
         public string Number { get; set; }
     }
 
+
+    public class AddProfilePicture
+        {
+
+        [Display(Name = "Профилна снимка")]
+        public string ProfilePicture { get; set; }
+        }
     public class VerifyPhoneNumberViewModel
     {
         [Required]

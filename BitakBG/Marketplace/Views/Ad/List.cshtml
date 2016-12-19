@@ -158,13 +158,21 @@
             @foreach (var ad in Model)
             {
 
-             
-                string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
+                string filePath;
+                if (ad.primaryImageName != null)
+                {
+                    filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
+
+                }
+                else
+                {
+                    filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/default.png");
+                }
 
                 <div class="well">
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" width="120" src="@filePath">
+                            <img class="media-object" width="100" height="100" src="@filePath">
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">@Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)</h4>

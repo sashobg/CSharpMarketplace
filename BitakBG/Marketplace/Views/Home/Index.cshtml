@@ -32,8 +32,16 @@
             
             @foreach (var ad in Model.ads)
             {
-                
-                string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
+                string filePath;
+                if (ad.primaryImageName != null)
+                {
+                    filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
+
+                }
+                else
+                {
+                    filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/default.png");
+                }                
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
                         <img src="@filePath" class="col-sm-4" alt="">

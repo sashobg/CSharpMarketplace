@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Marketplace.Models;
+using System.IO;
+using System.Data.Entity;
 
 namespace Marketplace.Controllers
 {
@@ -333,7 +335,74 @@ namespace Marketplace.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        public ActionResult AddProfilePicture()
+        {
+            var userId = User.Identity.GetUserId();
+            using (var database = new MarketplaceDbContext())
+            {
+                ViewBag.userPicture = database.Users.Where(a => a.Id == userId).First().ProfilePicture;
+            }
+            return View();
+        }
+
+        //
+        // POST: /Manage/AddProfilePicture
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddProfilePicture([Bind(Exclude = "ProfilePicture")]AddProfilePicture model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var database = new MarketplaceDbContext())
+                {
+                    var userId = User.Identity.GetUserId();
+                    var user = ViewBag.userPicture = database.Users.FirstOrDefault(a => a.Id == userId);
+                    if (user.ProfilePicture != null)
+                    {
+                        string fullPathPrimary = Request.MapPath("~/Content/ProfilePictures/" + user.ProfilePicture);
+                        if (System.IO.File.Exists(fullPathPrimary))
+                        {
+                            System.IO.File.Delete(fullPathPrimary);
+                        }
+                        user.ProfilePicture = null;
+                    }
+
+                    HttpPostedFileBase imgFile = Request.Files["ProfilePicture"];
+
+                    var validImageTypes = new string[]
+                      {
+                            "image/gif",
+                            "image/jpeg",
+                            "image/pjpeg",
+                            "image/png"
+                      };
+
+                    //upload Primary image
+
+                    if (validImageTypes.Contains(imgFile.ContentType) &&
+                    imgFile != null && imgFile.ContentLength > 0)
+                    {
+                        var id = Guid.NewGuid().ToString();
+                        var fileName = id + Path.GetExtension(imgFile.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Content/ProfilePictures/"), fileName);
+                        imgFile.SaveAs(path);
+                        user.ProfilePicture = fileName;
+
+                    }
+
+                    database.Entry(user).State = EntityState.Modified;
+                    database.SaveChanges();
+
+                }
+            }
+
+            return RedirectToAction("Index", new { Message = "Снимката е сменена успешно!" });
+
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
