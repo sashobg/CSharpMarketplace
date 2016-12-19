@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
-
+using System.IO;
 
 namespace Marketplace.Controllers
 {
@@ -42,10 +42,10 @@ namespace Marketplace.Controllers
 
                 bool isAdmin = this.User.IsInRole("Admin");
                 var ads = database.Ads
-                       .OrderByDescending(a => a.DateCreated)
+                       .OrderByDescending(a => a.DateCreated)                       
                        .Include(a => a.Author)
                        .Include(a => a.Town)
-                       .Include(a => a.Category)
+                       .Include(a => a.Category)                      
                        .ToList();
 
                 if (!isAdmin)
@@ -103,10 +103,13 @@ namespace Marketplace.Controllers
                    .Include(c => c.Ads)                   
                    .OrderBy(c => c.Name)
                    .ToList();
-               
+
+                ViewBag.images = database.Images                                
+                   .ToList();
+
 
                 ViewBag.towns = database.Towns
-                   .Include(c => c.Ads)
+                   .Include(c => c.Ads)                   
                    .OrderBy(c => c.Name)
                    .ToList();
                 int pageSize = 5;
@@ -120,7 +123,7 @@ namespace Marketplace.Controllers
 
 
         // GET: Ad/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
@@ -132,6 +135,7 @@ namespace Marketplace.Controllers
                 // Get the Ad from db
                 var ad = database.Ads
                     .Where(a => a.Id == id)
+                    .Include(a => a.Images)
                     .Include(a => a.Author)
                     .Include(a => a.Town)
                     .Include(a => a.Category)
@@ -166,7 +170,7 @@ namespace Marketplace.Controllers
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
-
+               
                 return View(model);
             }
         }
@@ -174,7 +178,7 @@ namespace Marketplace.Controllers
         // POST: Ad/Create
         [HttpPost]
         [Authorize]
-        public ActionResult Create(AdViewModel model)
+        public ActionResult Create(AdViewModel model, HttpPostedFileBase primaryImage, IEnumerable<HttpPostedFileBase> uploadImages)
         {
             if (ModelState.IsValid)
             {
@@ -188,20 +192,79 @@ namespace Marketplace.Controllers
 
                     DateTime DateCreated = DateTime.Now;
                     int viewCount = 0;
-                    var ad = new Ad(0 ,authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, viewCount, DateCreated);
+                    string adId = Guid.NewGuid().ToString();
+                    var ad = new Ad(adId,0, authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, viewCount, DateCreated, null);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);
                     database.SaveChanges();
 
-                    return RedirectToAction("Index");
+                   
+
+
+                    //Upload images
+                    var validImageTypes = new string[]
+                       {
+                            "image/gif",
+                            "image/jpeg",
+                            "image/pjpeg",
+                            "image/png"
+                       };
+
+                    //upload Primary image
+                    if (primaryImage != null)
+                        
+                            if (primaryImage != null && primaryImage.ContentLength > 0)
+                            {
+                                var id = Guid.NewGuid().ToString();
+                                var fileName = id + Path.GetExtension(primaryImage.FileName);
+                                var path = Path.Combine(Server.MapPath("~/Content/UploadedImages"), fileName);
+                                primaryImage.SaveAs(path);
+
+                                var image = new Image(id, fileName, true, adId);
+                                database.Images.Add(image);
+                                database.SaveChanges();
+
+                            ad.primaryImageName = fileName;
+                            database.Entry(ad).State = EntityState.Modified;
+                            database.SaveChanges();
+
+
+                        }
+
+                    //upload other images 
+
+                    if (uploadImages != null)
+                        foreach (var otherImage in uploadImages)
+                        {
+                           
+                                if (otherImage != null && otherImage.ContentLength > 0)
+                                {
+                                    var id = Guid.NewGuid().ToString();
+                                    var fileName = id + Path.GetExtension(otherImage.FileName);
+                                    var path = Path.Combine(Server.MapPath("~/Content/UploadedImages"), fileName);
+                                    otherImage.SaveAs(path);
+
+                                    var image = new Image(id, fileName, false, adId);
+                                    database.Images.Add(image);
+                                    database.SaveChanges();
+
+                                }
+                        }
+
+                  
+
                 }
+
+                return View(model);
+
             }
             return View(model);
+
         }
 
         // GET: Ad/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -290,7 +353,7 @@ namespace Marketplace.Controllers
 
         
         // GET: Ad/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
@@ -324,7 +387,7 @@ namespace Marketplace.Controllers
         // POST: Ad/Delete/5
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int? id)
+        public ActionResult DeleteConfirmed(string id)
         {
             if (id == null)
             {

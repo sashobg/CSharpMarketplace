@@ -9,28 +9,35 @@ namespace Marketplace.Models
 {
     public class Ad
     {
-      
+
+            public ICollection<Image> images;
+
             public Ad()
             {
+                 this.images = new HashSet<Image>();
+             }
 
-            }
-
-            public Ad(int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, int viewCount, DateTime dateCreated)
+            public Ad(string id, int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, int viewCount, DateTime dateCreated, string fileName)
             {
+                this.Id = id;
                 this.Approved = approved;
                 this.AuthorId = authorId;
                 this.Title = title;
                 this.Content = content;
                 this.Price = price;
+                
                 this.CategoryId = categoryId;
                 this.TownId = townId;
                 this.ViewCount = viewCount;
+
                 this.DateCreated = dateCreated;
+            this.primaryImageName = fileName;
+
         }
 
             [Key]
 
-            public int Id { get; set; }
+            public string Id { get; set; }
 
             public int Approved { get; set; }
 
@@ -51,6 +58,11 @@ namespace Marketplace.Models
             {
                 return this.Author.UserName.Equals(name);
             }
+
+            public string primaryImageName { get; set; }
+
+            public virtual ICollection<Image> Images { get; set;} 
+
 
             [ForeignKey("Category")]
             public int CategoryId { get; set; }

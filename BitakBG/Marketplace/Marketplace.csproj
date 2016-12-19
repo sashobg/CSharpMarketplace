@@ -220,6 +220,7 @@
     <Compile Include="Models\AdCategoryModel.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AdViewModel.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\MarketplaceDbContext.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
@@ -240,6 +241,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dropzone.js" />
     <Content Include="Views\ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -300,7 +302,6 @@
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Delete.cshtml" />
-    <Content Include="Views\Home\ListAds.cshtml" />
     <Content Include="Views\Home\ListCategories.cshtml" />
     <Content Include="Views\Ad\Create.cshtml" />
     <Content Include="Views\Ad\Delete.cshtml" />
@@ -311,8 +312,6 @@
     <Content Include="Views\Town\Edit.cshtml" />
     <Content Include="Views\Town\List.cshtml" />
     <Content Include="Views\Ad\List.cshtml" />
-    <Content Include="Views\Home\ListAdsByTown.cshtml" />
-    <Content Include="Views\Home\ListByUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

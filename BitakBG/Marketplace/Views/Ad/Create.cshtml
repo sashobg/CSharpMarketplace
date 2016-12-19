@@ -1,16 +1,18 @@
 ﻿@model Marketplace.Models.AdViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Добавяне на обява";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Create Ad</h2>
-        @using (Html.BeginForm("Create", "Ad", FormMethod.Post, new { @class = "form-horizontal" }))
+        <h2>Добави обява</h2>
+     
+      
+        @using (Html.BeginForm("Create", "Ad", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary("", new { @class = "text-danger" })
-
+            <input type="hidden" name="Id" id="Id" value="@Model.Id">
             <div class="form-group">
                 @Html.LabelFor(m => m.Title, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
@@ -32,6 +34,20 @@
             </div>
 
             <div class="form-group">
+               <label class="control-label col-sm-4">Основна снимка</label>
+                <div class="col-sm-4">
+                    <input type="file" name="primaryImage" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">Още снимки</label>
+                <div class="col-sm-4">
+                    <input type="file" name="uploadImages" multiple/>
+                </div>
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.CategoryId, new { @class = "col-sm-4 control-label" })
                 <div class="dropdown col-sm-4">
                     @Html.DropDownListFor(m => m.CategoryId,
@@ -49,12 +65,20 @@
                 </div>
             </div>
 
+          
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
                     @Html.ActionLink("Cancel", "Index", "Ad", null, new { @class = "btn btn-default" })
-                    <input type="submit" value="Create" class="btn btn-success" />
+                   <input type="submit" value="publikuwai" class="btn btn-success">
                 </div>
             </div>
+
+            
         }
+       
+      
+               
+
+      
     </div>
 </div>

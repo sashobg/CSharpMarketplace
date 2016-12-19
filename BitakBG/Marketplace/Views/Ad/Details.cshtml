@@ -14,9 +14,31 @@
 
 
     <div class="col-md-9">
-
+        @{
+           
+           
+            string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + Model.primaryImageName;
+        }
+      
         <div class="thumbnail" style="border: 0px;">
-            <img class="img-responsive" src="https://olxbg-ring09.akamaized.net/images_prodavalnikcom/102977452_4_800x600_ttl-svetkavitsa-nissin-di622-mark-ii-za-nikon-elektronika.jpg" alt="">
+            <img class="img-responsive" src="@filePath" alt="">
+            <div class="space-30"></div>
+            <div class="row">
+            <div class="col-md-8">
+                <div class="row">  
+                    @foreach (var image in Model.Images.Where(a => a.IsItPrimary == false))
+                    {
+                       
+                        string path = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + image.FileName;
+                        <a href="@path" data-lightbox="images" class="col-sm-3">
+                            <img src="@path" class="img-fluid">
+                        </a>
+                    }
+                    
+                </div>
+            </div>
+                </div>
+           
             <div class="caption-full">
                 <h3 class="pull-right text-danger ">@Model.Price лв.</h3>
                 <h3>

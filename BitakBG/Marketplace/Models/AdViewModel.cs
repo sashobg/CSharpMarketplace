@@ -8,7 +8,7 @@ namespace Marketplace.Models
 {
     public class AdViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public int Approved { get; set; }
 
@@ -25,8 +25,11 @@ namespace Marketplace.Models
         public ICollection<Ad> Ads { get; set; }
         public List<Category> Categories { get; internal set; }
 
+        
         public int TownId { get; set; }        
         public List<Town> Towns { get; internal set; }
+
+        
 
 
 

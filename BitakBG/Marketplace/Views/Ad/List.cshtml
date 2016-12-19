@@ -147,12 +147,24 @@
             </ul>
             </div>
         <div class="space-30"></div>
+         @if (Model.Count() == 0)
+         {
+             <hr>
+            
+             <div class="text-center">
+                 <h3><i>Няма намерени обяви</i></h3>
+             </div>
+         }
             @foreach (var ad in Model)
             {
+
+             
+                string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
+
                 <div class="well">
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="https://placekitten.com/110/110">
+                            <img class="media-object" width="120" src="@filePath">
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">@Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)</h4>
@@ -209,7 +221,11 @@
     </div>
 </div>
 <div class="text-center">
-  Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) от @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("List",
+    @if (Model.Count() != 0)
+    {
+        @:Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) от @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("List",
     new { page, sortBy = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, categoryId = ViewBag.categoryId, townId = ViewBag.townId, userId = ViewBag.userId }))
+    }
+  
  </div>

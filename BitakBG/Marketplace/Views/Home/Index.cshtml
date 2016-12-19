@@ -13,7 +13,7 @@
             @foreach (var category in Model.categories)
             {
                 @Html.ActionLink(string.Format($"{category.Name} ({category.Ads.Where(a => a.Approved == 1).Count()})"),
-        "ListAds", "Home", new { @categoryId = category.Id }, new { @class = "list-group-item" })
+        "List", "Ad", new { @categoryId = category.Id }, new { @class = "list-group-item" })
             }
         </div>
     </div>
@@ -32,9 +32,11 @@
             
             @foreach (var ad in Model.ads)
             {
+                
+                string filePath = VirtualPathUtility.ToAbsolute("~/Content/UploadedImages/") + ad.primaryImageName;
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="http://placehold.it/320x200" alt="">
+                        <img src="@filePath" class="col-sm-4" alt="">
                         <div class="caption">
                             <h4 style="margin: 0; font-size: 13pt;">
                                 @Html.ActionLink(@ad.Title, "Details", "Ad", new { @id = ad.Id }, null)

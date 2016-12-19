@@ -17,7 +17,7 @@ namespace Marketplace.Models
         public virtual IDbSet<Ad> Ads { get; set; }
 
         public virtual IDbSet<Category> Categories { get; set; }
-
+        public virtual IDbSet<Image> Images { get; set; }
         public virtual IDbSet<Town> Towns { get; set; }
 
         public static MarketplaceDbContext Create()
