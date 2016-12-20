@@ -1,12 +1,12 @@
 ﻿@model Marketplace.Models.Category
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактиране на категория";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Edit Category</h2>
+        <h2>Редактирай категория</h2>
         @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
@@ -18,8 +18,8 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "List", "Category", new { @class = "btn btn-default" })
-                    <input type="submit" value="Edit" class="btn btn-success" />
+                    @Html.ActionLink("Назад", "List", "Category", new { @class = "btn btn-default" })
+                    <input type="submit" value="Редактирай" class="btn btn-success" />
                 </div>
             </div>
         }

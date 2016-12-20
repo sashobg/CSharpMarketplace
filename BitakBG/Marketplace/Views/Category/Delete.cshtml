@@ -1,11 +1,11 @@
 ﻿@model Marketplace.Models.Category
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Изтриване на категория";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Delete Category</h2>
+        <h2>Изтрий категория</h2>
         @using (Html.BeginForm("Delete", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group">
@@ -17,8 +17,8 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "List", "Category", new { @class = "btn btn-default" })
-                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Назад", "List", "Category", new { @class = "btn btn-default" })
+                    <input type="submit" value="Изтрий" class="btn btn-danger" />
                 </div>
             </div>
         }

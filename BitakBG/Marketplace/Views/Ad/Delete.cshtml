@@ -1,12 +1,12 @@
 ﻿@model Marketplace.Models.Ad
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Изтриване на обява";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Delete Ad</h2>
+        <h2>Изтрий обява</h2>
         @using (Html.BeginForm("Delete", "Ad", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
@@ -26,8 +26,8 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "Index", "Ad", null, new { @class = "btn btn-default" })
-                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Назад", "Index", "Ad", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Изтрий" class="btn btn-danger" />
                 </div>
             </div>
         }

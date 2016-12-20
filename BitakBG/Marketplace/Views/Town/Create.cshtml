@@ -1,10 +1,10 @@
 ﻿@model Marketplace.Models.Town
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Добавяне на град";
 }
 <div class="container">
     <div class="well">
-        <h2>Add Town</h2>
+        <h2>Добави град</h2>
         @using (@Html.BeginForm("Create", "Town", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="form-group span=8 offset=2">
@@ -16,8 +16,8 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
-                    @Html.ActionLink("Cancel", "Index", "Town", new { @class = "btn btn-default" })
-                    <input type="submit" value="Create" class="btn btn-success" />
+                    @Html.ActionLink("Назад", "Index", "Town", new { @class = "btn btn-default" })
+                    <input type="submit" value="Добави" class="btn btn-success" />
                 </div>
             </div>
         }

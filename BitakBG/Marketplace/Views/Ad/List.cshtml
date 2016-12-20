@@ -3,7 +3,7 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Всички обяви";
 }
 
 <div class="bitak-title">
@@ -216,7 +216,7 @@
                                         </li>
 
                                         <div class="pull-right">
-                                            @Html.ActionLink("Edit", "Edit", "Ad", new { @id = ad.Id }, new { @class = "btn btn-fill " })
+                                            @Html.ActionLink("Редактирай", "Edit", "Ad", new { @id = ad.Id }, new { @class = "btn btn-fill " })
                                         </div>
                                 }
                             </ul>

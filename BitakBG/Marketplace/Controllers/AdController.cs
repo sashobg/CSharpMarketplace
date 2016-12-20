@@ -193,7 +193,7 @@ namespace Marketplace.Controllers
                     DateTime DateCreated = DateTime.Now;
                     int viewCount = 0;
                     string adId = Guid.NewGuid().ToString();
-                    var ad = new Ad(adId,0, authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, viewCount, DateCreated, null);
+                    var ad = new Ad(adId,0, authorId, model.Заглавие, model.Съдържание, model.Цена, model.Категория, model.Град, viewCount, DateCreated, null);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);
@@ -290,14 +290,14 @@ namespace Marketplace.Controllers
                 // Create the view model
                 var model = new AdViewModel();
                 model.Id = ad.Id;
-                model.Title = ad.Title;
-                model.Content = ad.Content;
-                model.Price = ad.Price;
-                model.CategoryId = ad.CategoryId;
+                model.Заглавие = ad.Title;
+                model.Съдържание = ad.Content;
+                model.Цена = ad.Price;
+                model.Категория = ad.CategoryId;
                 model.Categories = database.Categories
                     .OrderBy(c => c.Name)
                     .ToList();
-                model.TownId = ad.TownId;
+                model.Град = ad.TownId;
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
@@ -328,11 +328,11 @@ namespace Marketplace.Controllers
                     }
 
                     // Set Ad properties
-                    ad.Title = model.Title;
-                    ad.Content = model.Content;
-                    ad.Price = model.Price;
-                    ad.CategoryId = model.CategoryId;
-                    ad.TownId = model.TownId;
+                    ad.Title = model.Заглавие;
+                    ad.Content = model.Съдържание;
+                    ad.Price = model.Цена;
+                    ad.CategoryId = model.Категория;
+                    ad.TownId = model.Град;
 
                     bool isAdmin = this.User.IsInRole("Admin");
                     if (isAdmin)

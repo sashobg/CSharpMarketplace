@@ -1,12 +1,12 @@
 ﻿@model Marketplace.Models.AdViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактиране на обява";
 }
 
 <div class="container">
     <div class="well">
-        <h2>Edit Ad</h2>
+        <h2>Редактирай обява</h2>
         @using (Html.BeginForm("Edit", "Ad", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
@@ -79,8 +79,8 @@
 
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "Index", "Ad", null, new { @class = "btn btn-default" })
-                    <input type="submit" value="Edit" class="btn btn-success" />
+                    @Html.ActionLink("Назад", "Index", "Ad", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Редактирай" class="btn btn-success" />
                 </div>
             </div>
         }

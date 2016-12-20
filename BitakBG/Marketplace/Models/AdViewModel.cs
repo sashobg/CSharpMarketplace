@@ -14,19 +14,19 @@ namespace Marketplace.Models
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; }
+        public string Заглавие { get; set; }
 
         [Required]
-        public string Content { get; set; }
+        public string Съдържание { get; set; }
         public string AuthorId { get; set; }
-        public decimal Price { get; set; }
+        public decimal Цена{ get; set; }
 
-        public int CategoryId { get; set; }
+        public int Категория { get; set; }
         public ICollection<Ad> Ads { get; set; }
         public List<Category> Categories { get; internal set; }
 
         
-        public int TownId { get; set; }        
+        public int Град { get; set; }        
         public List<Town> Towns { get; internal set; }
 
         

@@ -14,22 +14,22 @@
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <input type="hidden" name="Id" id="Id" value="@Model.Id">
             <div class="form-group">
-                @Html.LabelFor(m => m.Title, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.Заглавие, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Заглавие, new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Content, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.Съдържание, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows = "7" })
+                    @Html.TextAreaFor(m => m.Съдържание, new { @class = "form-control", @rows = "7" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Price, new { @class = "control-label col-sm-4" })
+                @Html.LabelFor(m => m.Цена, new { @class = "control-label col-sm-4" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control"})
+                    @Html.TextBoxFor(m => m.Цена, new { @class = "form-control"})
                 </div>
             </div>
 
@@ -48,18 +48,18 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CategoryId, new { @class = "col-sm-4 control-label" })
+                @Html.LabelFor(m => m.Категория, new { @class = "col-sm-4 control-label" })
                 <div class="dropdown col-sm-4">
-                    @Html.DropDownListFor(m => m.CategoryId,
+                    @Html.DropDownListFor(m => m.Категория,
                         new SelectList(Model.Categories, "Id", "Name"),
                         new { @class = "btn btn-info col-sm-12" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.TownId, new { @class = "col-sm-4 control-label" })
+                @Html.LabelFor(m => m.Град, new { @class = "col-sm-4 control-label" })
                 <div class="dropdown col-sm-4">
-                    @Html.DropDownListFor(m => m.TownId,
+                    @Html.DropDownListFor(m => m.Град,
                         new SelectList(Model.Towns, "Id", "Name"),
                         new { @class = "btn btn-info col-sm-12" })
                 </div>
@@ -68,8 +68,8 @@
           
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
-                    @Html.ActionLink("Cancel", "Index", "Ad", null, new { @class = "btn btn-default" })
-                   <input type="submit" value="publikuwai" class="btn btn-success">
+                    @Html.ActionLink("Назад", "Index", "Ad", null, new { @class = "btn btn-default" })
+                   <input type="submit" value="Добави" class="btn btn-success">
                 </div>
             </div>
 

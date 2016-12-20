@@ -70,10 +70,10 @@
             <div class="text-center">
                 @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
                 {
-                    @Html.ActionLink("Edit", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
-                    @Html.ActionLink("Delete", "Delete", "Ad", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
+                    @Html.ActionLink("Редактирай", "Edit", "Ad", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
+                    @Html.ActionLink("Изтрий", "Delete", "Ad", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
                 }
-                @Html.ActionLink("Back", "Index", "Ad", null, new { @class = "btn btn-default btn-xs" })
+                @Html.ActionLink("Назад", "Index", "Ad", null, new { @class = "btn btn-default btn-xs" })
             </div>
             
             <div class="space"></div>
