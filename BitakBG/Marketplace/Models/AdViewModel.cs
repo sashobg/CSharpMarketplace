@@ -19,7 +19,7 @@ namespace Marketplace.Models
         [Required]
         public string Съдържание { get; set; }
         public string AuthorId { get; set; }
-        public decimal Цена{ get; set; }
+        public decimal Цена { get; set; }
 
         public int Категория { get; set; }
         public ICollection<Ad> Ads { get; set; }
