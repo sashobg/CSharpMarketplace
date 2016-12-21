@@ -182,12 +182,19 @@
                             <ul class="list-inline list-unstyled">
                                 <li>
                                     <span>
-                                        <i class="glyphicon glyphicon-time"></i> @Html.ValueFor(Model => ad.DateCreated, "{0:dd/MM/yyyy hh:mm }")
+                                        <i class="glyphicon glyphicon-time"></i> @Html.ValueFor(Model => ad.DateCreated, "{0:dd/MM/yyyy г. hh:mm ч. }")
                                     </span>
                                 </li>
                                 <li>|</li>
                                 <li>
-                                    <span><i class="glyphicon glyphicon-comment"></i> 2 коментара</span>
+                                    @if (@ad.Comments.Count != 1)
+                                    {
+                                        <span><i class="glyphicon glyphicon-comment"></i> @ad.Comments.Count коментара</span>
+                                    }
+                                    else
+                                    {
+                                    <span><i class="glyphicon glyphicon-comment"></i> @ad.Comments.Count коментар</span>
+                                    }
                                 </li>
                                 <li>|</li>
                                 <li>

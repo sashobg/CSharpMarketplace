@@ -45,7 +45,8 @@ namespace Marketplace.Controllers
                        .OrderByDescending(a => a.DateCreated)                       
                        .Include(a => a.Author)
                        .Include(a => a.Town)
-                       .Include(a => a.Category)                      
+                       .Include(a => a.Category)
+                       .Include(a => a.Comments)                  
                        .ToList();
 
                 if (!isAdmin)
@@ -139,6 +140,7 @@ namespace Marketplace.Controllers
                     .Include(a => a.Author)
                     .Include(a => a.Town)
                     .Include(a => a.Category)
+                    .Include(a => a.Comments)
                     .First();
 
                 if (ad == null)
@@ -193,7 +195,7 @@ namespace Marketplace.Controllers
                     DateTime DateCreated = DateTime.Now;
                     int viewCount = 0;
                     string adId = Guid.NewGuid().ToString();
-                    var ad = new Ad(adId,0, authorId, model.Заглавие, model.Съдържание, model.Цена, model.Категория, model.Град, viewCount, DateCreated, null);
+                    var ad = new Ad(adId,0, authorId, model.Title, model.Content, model.Price, model.CategoryId, model.TownId, viewCount, DateCreated, null);
 
                     //Save Ad in DB
                     database.Ads.Add(ad);
@@ -214,8 +216,9 @@ namespace Marketplace.Controllers
                     //upload Primary image
 
 
-                    if (validImageTypes.Contains(primaryImage.ContentType) &&
-                    primaryImage != null && primaryImage.ContentLength > 0)
+                    
+                    if(primaryImage != null && primaryImage.ContentLength > 0)
+                        if (validImageTypes.Contains(primaryImage.ContentType))
                     {
                         var id = Guid.NewGuid().ToString();
                         var fileName = id + Path.GetExtension(primaryImage.FileName);
@@ -234,7 +237,8 @@ namespace Marketplace.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index");
+                            TempData["Warning"] = "Позволените формати за снимка са .gif, .jpeg и .png. Обявата Ви е качена без главна снимка и ще бъде видима, след като е одобрена.";
+                        return RedirectToAction("List");
                     }
 
                     //upload other images 
@@ -244,6 +248,7 @@ namespace Marketplace.Controllers
                         {
                            
                                 if (otherImage != null && otherImage.ContentLength > 0)
+                                if (validImageTypes.Contains(otherImage.ContentType))
                                 {
                                     var id = Guid.NewGuid().ToString();
                                     var fileName = id + Path.GetExtension(otherImage.FileName);
@@ -255,15 +260,21 @@ namespace Marketplace.Controllers
                                     database.SaveChanges();
 
                                 }
+                                else
+                                {
+                                    TempData["Warning"] = "Позволените формати за снимка са .gif, .jpeg и .png. Обявата Ви е качена и ще бъде видима, след като е одобрена.";
+                                    return RedirectToAction("List");
+                                }
                         }
 
                   
 
                 }
-
-                return RedirectToAction("Index");
+                TempData["Success"] = "Успешно добавихте обява. Обявата Ви ще бъде видима, след като е одобрена.";
+                return RedirectToAction("List");
             }
-            return RedirectToAction("Index");
+            TempData["Danger"] = "Некоректни данни, моля опитайте отново.";
+            return RedirectToAction("List");
         }
 
         // GET: Ad/Edit/5
@@ -290,14 +301,14 @@ namespace Marketplace.Controllers
                 // Create the view model
                 var model = new AdViewModel();
                 model.Id = ad.Id;
-                model.Заглавие = ad.Title;
-                model.Съдържание = ad.Content;
-                model.Цена = ad.Price;
-                model.Категория = ad.CategoryId;
+                model.Title = ad.Title;
+                model.Content = ad.Content;
+                model.Price = ad.Price;
+                model.CategoryId = ad.CategoryId;
                 model.Categories = database.Categories
                     .OrderBy(c => c.Name)
                     .ToList();
-                model.Град = ad.TownId;
+                model.TownId = ad.TownId;
                 model.Towns = database.Towns
                     .OrderBy(c => c.Name)
                     .ToList();
@@ -328,11 +339,11 @@ namespace Marketplace.Controllers
                     }
 
                     // Set Ad properties
-                    ad.Title = model.Заглавие;
-                    ad.Content = model.Съдържание;
-                    ad.Price = model.Цена;
-                    ad.CategoryId = model.Категория;
-                    ad.TownId = model.Град;
+                    ad.Title = model.Title;
+                    ad.Content = model.Content;
+                    ad.Price = model.Price;
+                    ad.CategoryId = model.CategoryId;
+                    ad.TownId = model.TownId;
 
                     bool isAdmin = this.User.IsInRole("Admin");
                     if (isAdmin)
@@ -345,12 +356,13 @@ namespace Marketplace.Controllers
                     database.SaveChanges();
 
                     // Redirect to the index page
-                    return RedirectToAction("Index");
+                    TempData["Success"] = "Успешно редактирахте обявата.";
+                    return RedirectToAction("List");
                 }
             }
 
             // If model state is invalid, retyrn the same view
-
+            TempData["Danger"] = "Некоректни данни, моля опитайте отново.";
             return View(model);
         }
 
@@ -436,11 +448,25 @@ namespace Marketplace.Controllers
                     database.SaveChanges();
                 }
 
+                //Delete comments 
+
+                var comments = database.Comments
+                   .Where(a => a.AdId == ad.Id)
+                   .ToList();
+
+                foreach (var comment in comments)
+                {
+                  
+                    database.Comments.Remove(comment);
+                    database.SaveChanges();
+                }
+
                 // Delete Ad from database
                 database.Ads.Remove(ad);
                 database.SaveChanges();
                 // Redirect to index page
-                return RedirectToAction("Index");
+                TempData["Success"] = "Успешно изтрихте обявата.";
+                return RedirectToAction("List");
             }
         }
 

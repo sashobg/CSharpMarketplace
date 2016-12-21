@@ -381,24 +381,35 @@ namespace Marketplace.Controllers
 
                     //upload Primary image
 
-                    if (validImageTypes.Contains(imgFile.ContentType) &&
-                    imgFile != null && imgFile.ContentLength > 0)
-                    {
-                        var id = Guid.NewGuid().ToString();
-                        var fileName = id + Path.GetExtension(imgFile.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Content/ProfilePictures/"), fileName);
-                        imgFile.SaveAs(path);
-                        user.ProfilePicture = fileName;
 
-                    }
+                    if (imgFile != null && imgFile.ContentLength > 0)
+                        if (validImageTypes.Contains(imgFile.ContentType))
+                        {
+                            var id = Guid.NewGuid().ToString();
+                            var fileName = id + Path.GetExtension(imgFile.FileName);
+                            var path = Path.Combine(Server.MapPath("~/Content/ProfilePictures/"), fileName);
+                            imgFile.SaveAs(path);
+                            user.ProfilePicture = fileName;
+
+                        }
+                        else
+                        {
+                            TempData["Danger"] = "Позволените формати за снимка са .gif, .jpeg и .png.";
+                            return RedirectToAction("Index");
+                        }
 
                     database.Entry(user).State = EntityState.Modified;
                     database.SaveChanges();
+                    TempData["Success"] = "Успешно сменихте профилната си снимка.";
 
                 }
             }
+            else
+            {
+                TempData["Danger"] = "Грешка! Моля опитайте отново.";
+            }
 
-            return RedirectToAction("Index", new { Message = "Снимката е сменена успешно!" });
+            return RedirectToAction("Index");
 
         }
 

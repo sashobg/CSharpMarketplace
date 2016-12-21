@@ -76,17 +76,47 @@
 
         </div><!--  end navbar -->
     </div> <!-- end menu-dropdown -->
-    <div class="main">
-
-        <div class="space"></div>
-        <div class="container">
-          @RenderBody()
-            <footer class="pull-right"> <p>&copy; @DateTime.Now.Year - БитакБГ</p> </footer>
-
+    <div id="notifications">
+      @if (TempData["Success"] != null)
+      {
+        <div class="alert alert-success">
+            <div class="container">
+                @TempData["Success"]
+            </div>
         </div>
+      }
+        @if (TempData["Warning"]  != null)
+        {
+            <div class="alert alert-warning">
+                <div class="container">
+                    @TempData["Warning"]
+                </div>
+            </div>
+        }
 
-        <!-- end container -->
-    </div>
+        @if (TempData["Danger"] != null)
+        {
+            <div class="alert alert-danger">
+                <div class="container">
+                    @TempData["Danger"]
+                </div>
+            </div>
+        }
+       
+        <div class="clearfix"></div>
+    </div><!--  end notifications -->
+    <div class="main">
+        <div class="row">
+        
+            <div class="space"></div>
+            <div class="container">
+                @RenderBody()
+                <footer class="pull-right"> <p>&copy; @DateTime.Now.Year - БитакБГ</p> </footer>
+
+            </div>
+
+            <!-- end container -->
+        </div>
     <!-- end main -->
 
     
@@ -97,6 +127,7 @@
 
 </body>
 
+@Scripts.Render("~/bundles/checkbox")
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)

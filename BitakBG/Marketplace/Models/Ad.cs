@@ -11,11 +11,14 @@ namespace Marketplace.Models
     {
 
             public ICollection<Image> images;
+              public ICollection<Comment> comments;
 
-            public Ad()
+
+        public Ad()
             {
                  this.images = new HashSet<Image>();
-             }
+                 this.comments = new HashSet<Comment>();
+            }
 
             public Ad(string id, int approved, string authorId, string title, string content,decimal price, int categoryId, int townId, int viewCount, DateTime dateCreated, string fileName)
             {
@@ -24,16 +27,14 @@ namespace Marketplace.Models
                 this.AuthorId = authorId;
                 this.Title = title;
                 this.Content = content;
-                this.Price = price;
-                
+                this.Price = price;                
                 this.CategoryId = categoryId;
                 this.TownId = townId;
                 this.ViewCount = viewCount;
-
                 this.DateCreated = dateCreated;
-            this.primaryImageName = fileName;
+                this.primaryImageName = fileName;
 
-        }
+             }
 
             [Key]
 
@@ -63,7 +64,7 @@ namespace Marketplace.Models
 
             public virtual ICollection<Image> Images { get; set;} 
 
-
+            
             [ForeignKey("Category")]
             public int CategoryId { get; set; }
             public virtual Category Category { get; set; }
@@ -76,7 +77,7 @@ namespace Marketplace.Models
 
             public DateTime DateCreated { get; set; }
 
-
+             public virtual ICollection<Comment> Comments { get; set; }  
 
     }
 }

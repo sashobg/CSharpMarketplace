@@ -1,0 +1,57 @@
+﻿
+<div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="Comment" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="comment">Оцени продукта</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Comment", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="adId" id="adId" value="@Model.Id">
+
+                   <div class="form-group">
+                        <label class = "control-label col-sm-4">Име:</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" data-val="true" data-val-length="Максимална дължина 50 символа." data-val-length-max="50" data-val-required="Полето е задължително" id="Name" name="Name" type="text" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Коментар:</label>
+                        <div class="col-sm-4">                           
+                            <textarea class="form-control" cols="20" data-val="true" data-val-required="Максимална дължина 250 символа."  data-val-length-max="250" data-val-required="Полето е задължително" id="Content" name="Content" rows="7"></textarea>
+                                                   
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Оценка:</label>
+                        <div class="col-sm-4">
+                            <select class="btn btn-info col-sm-12" data-val="true" data-val-number="Полето оценка е число." data-val-required="Полето е задължително" id="Stars" name="Stars">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                           <input type="submit" value="Изпрати" class="btn btn-primary" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>                
+            </div>
+        </div>
+    </div>
+</div>

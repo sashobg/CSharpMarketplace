@@ -209,6 +209,7 @@
     <Compile Include="Controllers\Admin\CategoryController.cs" />
     <Compile Include="Controllers\Admin\TownController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -218,8 +219,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Ad.cs" />
     <Compile Include="Models\AdCategoryModel.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AdViewModel.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\MarketplaceDbContext.cs" />
     <Compile Include="Models\Category.cs" />
@@ -235,7 +237,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\demo.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ProfilePictures\avatar.jpg" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\UploadedImages\aeb06ac5-037d-4a25-b9ac-cf791567f86e.jpg" />
+    <Content Include="Content\UploadedImages\default.png" />
+    <Content Include="Content\UploadedImages\e80681ca-7b7b-4108-af4f-9584778c86c1.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -249,7 +255,7 @@
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\get-shit-done.js" />
     <Content Include="Scripts\gsdk-bootstrapswitch.js" />
-    <Content Include="Scripts\gsdk-checkbox.js" />
+    <Content Include="Scripts\checkbox.js" />
     <Content Include="Scripts\gsdk-radio.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -313,9 +319,11 @@
     <Content Include="Views\Town\List.cshtml" />
     <Content Include="Views\Ad\List.cshtml" />
     <Content Include="Views\Manage\AddProfilePicture.cshtml" />
+    <Content Include="Views\Ad\_CommentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

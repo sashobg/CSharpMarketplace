@@ -1,15 +1,11 @@
 ﻿@model Marketplace.Models.Ad
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "БитакБг";
 }
 
 
 
-
-
-<div class="row">
-    
 
 
 
@@ -76,70 +72,74 @@
                 @Html.ActionLink("Назад", "Index", "Ad", null, new { @class = "btn btn-default btn-xs" })
             </div>
             
+            @{ 
+                double averageStars = 0;
+                if (Model.Comments.Count != 0)
+                {
+                    averageStars = Model.Comments.AsEnumerable().Average(a => a.Stars);
+                }
+            }
             <div class="space"></div>
             <div class="price ">
-                <p class="pull-right">3 коментара</p>
+                @if(Model.Comments.Count != 1)
+                {
+                <p class="pull-right">@Model.Comments.Count коментара</p>
+                }
+                else
+                {
+                <p class="pull-right">@Model.Comments.Count коментар</p>
+                }
                 <p>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    4.0
+                    @for (int i = 0; i < Math.Round(@averageStars); i++)
+                    {
+                        <span class="glyphicon glyphicon-star"></span>
+                    }
+                    @for (int i = 0; i < 5 - Math.Round(@averageStars); i++)
+                    {
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    }
+                    
+                    @Math.Round(@averageStars, 1)
                 </p>
             </div>
         </div>
         
         <div class="well">
 
-            <div class="text-right">
-                <a class="btn btn-success">Напиши коментар</a>
+            <div class="text-right">             
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comment">Напиши коментар</button>
+
             </div>
 
             <hr>
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        @for (int i = 0; i < comment.Stars; i++)
+                        {
+                            <span class="glyphicon glyphicon-star"></span>
+                        }
+                        @for (int i = 0; i < 5 - comment.Stars; i++)
+                        {
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        }                        
+                        @comment.Name
 
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    Без име
-                    <span class="pull-right">преди 10 дни</span>
-                    <p>Баси якото!</p>
+                        <span class="pull-right">@Html.ValueFor(Model => comment.DateCreated, "{0:dd MMMM yyyy г. hh:mm ч.}")</span>
+                        <p>@comment.Content</p>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Изтрий", "Delete", "Comment", new { @id = comment.Id }, new { @class = "btn btn-danger btn-xs" })
+                        }
+                    </div>
                 </div>
-            </div>
 
-            <hr>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    Без име
-                    <span class="pull-right">преди 15 дни</span>
-                    <p>Препоръчвам!</p>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    Иван
-                    <span class="pull-right">преди 16 дни</span>
-                    <p>Доволен съм. Препоръчвам.</p>
-                </div>
-            </div>
+                <hr>
+            }
+            
+            
 
         </div>
 
@@ -172,3 +172,5 @@
         </center>
     </div>
     </div>
+
+@Html.Partial("_CommentPartial")
