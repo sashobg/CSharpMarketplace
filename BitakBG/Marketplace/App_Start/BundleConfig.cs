@@ -33,8 +33,6 @@ namespace Marketplace
                  "~/Scripts/bootstrap.js",
                  "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
-                "~/Scripts/dropzone.js"));
 
         }
     }
