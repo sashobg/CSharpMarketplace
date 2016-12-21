@@ -155,21 +155,62 @@ namespace Marketplace.Controllers.Admin
 
                 // Get user Ads from database
                 var userAds = database.Ads
-                    .Where(a => a.Author.Id == user.Id);
+                    .Where(a => a.Author.Id == user.Id)
+                    .ToList();
 
                 // Delete user Ads
                 foreach (var ad in userAds)
                 {
-                    database.Ads.Remove(ad);
-                }
+                    string fullPathPrimary = Request.MapPath("~/Content/UploadedImages/" + ad.primaryImageName);
+                    if (System.IO.File.Exists(fullPathPrimary))
+                    {
+                        System.IO.File.Delete(fullPathPrimary);
+                    }
 
-                // Delete user and save changes
+
+                    var images = database.Images
+                        .Where(a => a.AdId == ad.Id)
+                        .ToList();
+
+
+
+                    foreach (var image in images)
+                    {
+                        string fullPath = Request.MapPath("~/Content/UploadedImages/" + image.FileName);
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                        database.Images.Remove(image);
+                        database.SaveChanges();
+                    }
+
+                    //Delete comments 
+
+                    var comments = database.Comments
+                       .Where(a => a.AdId == ad.Id)
+                       .ToList();
+
+                    foreach (var comment in comments)
+                    {
+
+                        database.Comments.Remove(comment);
+                        database.SaveChanges();
+                    }
+
+                    // Delete Ad from database
+                    database.Ads.Remove(ad);
+                    database.SaveChanges();
+                }
+                
                 database.Users.Remove(user);
                 database.SaveChanges();
-
+                TempData["Success"] = "Потребителят е премахнат успешно.";
                 return RedirectToAction("List");
             }
-        }
+           
+         }
+       
 
         private void SetUserRoles(EditUserViewModel model, ApplicationUser user, MarketplaceDbContext db)
         {

@@ -239,9 +239,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\ProfilePictures\avatar.jpg" />
     <Content Include="Content\style.css" />
-    <Content Include="Content\UploadedImages\aeb06ac5-037d-4a25-b9ac-cf791567f86e.jpg" />
     <Content Include="Content\UploadedImages\default.png" />
-    <Content Include="Content\UploadedImages\e80681ca-7b7b-4108-af4f-9584778c86c1.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

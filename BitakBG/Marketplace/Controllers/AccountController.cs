@@ -152,8 +152,19 @@ namespace Marketplace.Controllers
             if (ModelState.IsValid)
             {
                 DateTime dateCreated = DateTime.Now;
+                using (var database = new MarketplaceDbContext())
+                {
+                    var userExist = database.Users.FirstOrDefault(u => u.Email == model.Email);
+                    if (userExist != null)
+                    {
+                        TempData["Danger"] = "Вече има потребител с такъв email.";
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+               
                 var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, DateCreated=dateCreated, Email = model.Email};
                 var result = await UserManager.CreateAsync(user, model.Password);
+               
                
                 var addRoleResult = UserManager.AddToRole(user.Id, "User");
                 if (result.Succeeded)
